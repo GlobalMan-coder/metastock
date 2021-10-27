@@ -11,6 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(fileUpload());
 app.use(express.urlencoded({ extended: true }))
+// eslint-disable-next-line no-undef
 mongoose.connect(process.env.MONGDB_URL || 'mongodb://localhost/metastock', {
     autoCreate: true,
     autoIndex: true
@@ -25,10 +26,11 @@ app.get('/', (req, res) => {
     res.send('Server is ready');
 });
 
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
     res.status(500).send({ message: err.message });
 })
 
+// eslint-disable-next-line no-undef
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
     console.log(`Serve at http://localhost:${port}`);
