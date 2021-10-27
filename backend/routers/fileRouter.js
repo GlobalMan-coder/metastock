@@ -28,7 +28,6 @@ fileRouter.post('/upload', isAuth, expressAsyncHandler(async (req, res) => {
             await file.save();
             f.mv(`./backend/upload/${f.name}`, err => {
                 if (err) {
-                    console.error(err);
                     return res.status(500).send(err);
                 }
             })
@@ -36,7 +35,7 @@ fileRouter.post('/upload', isAuth, expressAsyncHandler(async (req, res) => {
             return res.status(500).json({ message: 'Error' });
         }
     })
-
+    return res.json({success: true})
 }))
 
 fileRouter.delete('/:id', isAuth, expressAsyncHandler(async (req, res) => {
@@ -58,8 +57,6 @@ fileRouter.delete('/:id', isAuth, expressAsyncHandler(async (req, res) => {
 fileRouter.get('/:id', expressAsyncHandler(async (req, res) => {
     const file = await File.findById(req.params.id);
     if (file) {
-        
-        // res.setHeader('content-type', "application/vnd.ms-excel");
         res.download('./backend/upload/' + file.name, file.name)
     }
 
