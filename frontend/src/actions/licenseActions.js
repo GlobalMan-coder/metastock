@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { LICENSE_DELETE_FAIL, LICENSE_DELETE_REQUEST, LICENSE_DELETE_SUCCESS, LICENSE_LIST_FAIL, LICENSE_LIST_REQUEST, LICENSE_LIST_SUCCESS, LICENSE_UPDATE_FAIL, LICENSE_UPDATE_REQUEST, LICENSE_UPDATE_SUCCESS } from '../constants/licenseConstants';
+import { endpoint } from '../constants/setting';
 export const listLicense = () => async (dispatch, getState) => {
     dispatch({
         type: LICENSE_LIST_REQUEST
@@ -8,7 +9,7 @@ export const listLicense = () => async (dispatch, getState) => {
         userSignin: { userInfo },
     } = getState();
     try {
-        const { data } = await axios.get('/api/license', {
+        const { data } = await axios.get(endpoint + '/api/license', {
             headers: { Authorization: `Bearer ${userInfo?.token}` },
         });
         dispatch({ type: LICENSE_LIST_SUCCESS, payload: data })
@@ -24,10 +25,10 @@ export const updateLicense = (data) => async (dispatch, getState) => {
     } = getState();
     try {
         const { res } = (data._id) ?
-            await axios.put('/api/license/' + data._id, data, {
+            await axios.put(endpoint + '/api/license/' + data._id, data, {
                 headers: { Authorization: `Bearer ${userInfo?.token}` },
             }) :
-            await axios.post('/api/license', data, {
+            await axios.post(endpoint + '/api/license', data, {
                 headers: { Authorization: `Bearer ${userInfo?.token}` },
             });
 
@@ -43,7 +44,7 @@ export const deleteLicense = (data) => async (dispatch, getState) => {
         userSignin: { userInfo },
     } = getState();
     try {
-        const { res } = await axios.delete('/api/license/' + data.id, {
+        const { res } = await axios.delete(endpoint + '/api/license/' + data.id, {
             headers: { Authorization: `Bearer ${userInfo?.token}` },
         });
         dispatch({ type: LICENSE_DELETE_SUCCESS, payload: res });

@@ -23,7 +23,6 @@ export default function ProfileScreen() {
   } = userUpdateProfile;
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(user);
     if (!user) {
       dispatch({ type: USER_UPDATE_PROFILE_RESET });
       dispatch(detailsUser(userInfo._id));

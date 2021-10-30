@@ -33,10 +33,6 @@ userRouter.post('/register', expressAsyncHandler(async (req, res) => {
     let isFirst = false;
     let count = await User.count({});
     if(count == 0)isFirst = true;
-    // await User.countDocuments({}, (err, c) => {
-    //     if(c == 0){ isFirst = true;}
-    // })
-    console.log(count, isFirst);
     const user = new User({
         name: req.body.name,
         email: req.body.email,

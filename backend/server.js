@@ -6,8 +6,10 @@ import userRouter from './routers/userRouter.js';
 import fileRouter from './routers/fileRouter.js';
 import clientRouter from './routers/clientRouter.js';
 import fileUpload from 'express-fileupload';
+import cors from 'cors';
 dotenv.config();
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(fileUpload());
 app.use(express.urlencoded({ extended: true }))

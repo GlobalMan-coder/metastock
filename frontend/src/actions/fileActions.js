@@ -13,6 +13,7 @@ import {
     , FILE_UPLOAD_REQUEST
     , FILE_UPLOAD_SUCCESS
 } from '../constants/fileConstants';
+import { endpoint } from '../constants/setting';
 
 export const listFile = () => async (dispatch, getState) => {
     dispatch({
@@ -22,7 +23,7 @@ export const listFile = () => async (dispatch, getState) => {
         userSignin: { userInfo },
     } = getState();
     try {
-        const { data } = await axios.get('/api/file', {
+        const { data } = await axios.get(endpoint + '/api/file', {
             headers: { Authorization: `Bearer ${userInfo?.token}` },
         });
         dispatch({ type: FILE_LIST_SUCCESS, payload: data })
@@ -34,9 +35,8 @@ export const listFile = () => async (dispatch, getState) => {
 export const fileUpload = (data) => async (dispatch, getState) => {
     dispatch({ type: FILE_UPLOAD_REQUEST });
     const { userSignin: { userInfo } } = getState();
-    console.log("data", data);
     try {
-        const res = await axios.post('/api/file/upload', data, {
+        const res = await axios.post(endpoint + '/api/file/upload', data, {
             headers: {
                 Authorization: `Bearer ${userInfo?.token}`,
                 'Content-Type': 'multipart/form-data'
@@ -54,7 +54,7 @@ export const deleteFile = (id) => async (dispatch, getState) => {
         userSignin: { userInfo },
     } = getState();
     try {
-        const { res } = await axios.delete('/api/file/' + id, {
+        const { res } = await axios.delete(endpoint + '/api/file/' + id, {
             headers: { Authorization: `Bearer ${userInfo?.token}` },
         });
         dispatch({ type: FILE_DELETE_SUCCESS, payload: res });
@@ -69,7 +69,7 @@ export const getFile = (id) => async(dispatch, getState) => {
         userSignin: { userInfo },
     } = getState();
     try{
-        await axios.get('/api/file/' + id, {
+        await axios.get(endpoint + '/api/file/' + id, {
             headers: { Authorization: `Bearer ${userInfo?.token}`},
         });
         dispatch({type: FILE_GET_SUCCESS})

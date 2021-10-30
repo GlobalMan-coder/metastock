@@ -11,7 +11,6 @@ fileRouter.get('/', expressAsyncHandler(async (req, res) => {
 }))
 
 fileRouter.post('/upload', isAuth, expressAsyncHandler(async (req, res) => {
-    console.log(req.user);
     if (req.files === null) {
         return res.status(500).json({ message: 'No file uploaded.' });
     }
