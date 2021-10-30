@@ -9,6 +9,9 @@ body {
 #root {
   height: 100%;
 }
+.title{
+  text-align: center;
+}
 
 /* Layout */
 .grid-container {

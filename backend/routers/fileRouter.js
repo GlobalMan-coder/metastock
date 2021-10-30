@@ -11,6 +11,7 @@ fileRouter.get('/', expressAsyncHandler(async (req, res) => {
 }))
 
 fileRouter.post('/upload', isAuth, expressAsyncHandler(async (req, res) => {
+    console.log(req.user);
     if (req.files === null) {
         return res.status(500).json({ message: 'No file uploaded.' });
     }
@@ -23,7 +24,8 @@ fileRouter.post('/upload', isAuth, expressAsyncHandler(async (req, res) => {
         try {
             const file = new File({
                 name: f.name,
-                date: date
+                date: date,
+                updatedBy: req.user.name
             })
             await file.save();
             f.mv(`./backend/upload/${f.name}`, err => {
@@ -59,7 +61,5 @@ fileRouter.get('/:id', expressAsyncHandler(async (req, res) => {
     if (file) {
         res.download('./backend/upload/' + file.name, file.name)
     }
-
 }))
-
 export default fileRouter;

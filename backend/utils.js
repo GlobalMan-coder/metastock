@@ -5,6 +5,7 @@ export const generateToken = (user) => {
         name: user.name,
         email: user.email,
         isAdmin: user.isAdmin,
+        isVerified: user.isVerified,
     },
         // eslint-disable-next-line no-undef
         process.env.JWT_SECRET || 'sumoysecret',
@@ -23,10 +24,16 @@ export const isAuth = (req, res, next) => {
             process.env.JWT_SECRET || 'sumoysecret',
             (err, decode) => {
                 if (err) {
-                    res.status(401).send({ message: 'Invallid Token' });
+                    res.status(401).send({ message: 'Invallid Token.' });
                 } else {
                     req.user = decode;
-                    next();
+                    if(req.user.isVerified){
+                        next();
+                    }
+                    else{
+                        res.status(401).send({message: 'The user is not allowed.'})
+                    }
+                    
                 }
             }
         )
@@ -34,3 +41,11 @@ export const isAuth = (req, res, next) => {
         res.status(401).send({ message: 'No Token' });
     }
 }
+
+export const isAdmin = (req, res, next) => {
+    if (req.user && req.user.isAdmin) {
+      next();
+    } else {
+      res.status(401).send({ message: 'Invalid Admin Token' });
+    }
+};

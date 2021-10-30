@@ -70,7 +70,7 @@ export default function FileScreen() {
         },
         { dataField: "date", text: "Date", formatter: DateToStr, sort: true },
         { dataField: "createdAt", text: "Uploaded Date", formatter: DateToStr, sort: true },
-        { dataField: "", text: "Uploaded By" },
+        { dataField: "updatedBy", text: "Uploaded By" },
         {
             dataField: "edit",
             text: "Action",
@@ -104,6 +104,7 @@ export default function FileScreen() {
     }
 
     return (<div>
+        <h1 className="title">File Management</h1>
         {loading ? (<LoadinggBox ></LoadinggBox>) :
             error ? (<MessageBox variant="danger">{error}</MessageBox>) : (<>
                 <Modal show={showUploadModal}>

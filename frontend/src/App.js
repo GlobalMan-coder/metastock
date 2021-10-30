@@ -8,6 +8,7 @@ import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import PrivateRoute from './components/PrivateRoute';
 import FileScreen from './screens/FileScreen';
+import UserScreen from './screens/UserScreen';
 function App() {
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo } = userSignin;
@@ -27,6 +28,7 @@ function App() {
                     <div>{
                         userInfo ? (
                             <>
+                                {userInfo.isAdmin? (<Link to="/user">Users</Link>) : null}
                                 <Link to="/upload">Upload</Link>
                                 <div className="dropdown">
                                     <Link to='/#'>{userInfo.name} <i className="fa fa-caret-down" /></Link>
@@ -48,6 +50,7 @@ function App() {
                 <main>
                     <PrivateRoute path="/license" component={LicenseScreen} exat></PrivateRoute>
                     <PrivateRoute path="/upload" component={FileScreen} exat></PrivateRoute>
+                    <PrivateRoute path="/user" component={UserScreen} exat></PrivateRoute>
                     <Route path="/signin" component={SigninScreen} exat></Route>
                     <Route path="/register" component={RegisterScreen} exat></Route>
                     <PrivateRoute path="/profile" component={ProfileScreen}></PrivateRoute>

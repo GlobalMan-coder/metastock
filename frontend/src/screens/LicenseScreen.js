@@ -72,7 +72,7 @@ export default function LicenseScreen() {
         { dataField: "date", text: "License Date", formatter: DateToStr, sort: true },
         { dataField: "createdAt", text: "Created Date", formatter: DateToStr, sort: true },
         { dataField: "updatedAt", text: "Updated Date", formatter: DateToStr, sort: true },
-        { dataField: "", text: "Modified By" },
+        { dataField: "updatedBy", text: "Updated By" },
         {
             dataField: "edit",
             text: "Action",
@@ -136,6 +136,7 @@ export default function LicenseScreen() {
     }
 
     return (<div>
+        <h1 className="title">License Management</h1>
         {loading ? (<LoadinggBox ></LoadinggBox>) :
             error ? (<MessageBox variant="danger">{error}</MessageBox>) : (<>
                 <Modal show={showUpdateModal}>
