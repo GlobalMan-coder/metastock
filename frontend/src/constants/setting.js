@@ -1,1 +1,0 @@
-export const endpoint = 'http://97.74.87.170:5000'

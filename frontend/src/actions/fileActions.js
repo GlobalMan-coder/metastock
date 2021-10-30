@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {
     FILE_DELETE_FAIL
     , FILE_DELETE_REQUEST
@@ -13,7 +12,8 @@ import {
     , FILE_UPLOAD_REQUEST
     , FILE_UPLOAD_SUCCESS
 } from '../constants/fileConstants';
-import { endpoint } from '../constants/setting';
+import axios from 'axios';
+axios = axios.create({baseURL: process.env.API_URL});
 
 export const listFile = () => async (dispatch, getState) => {
     dispatch({
@@ -23,7 +23,7 @@ export const listFile = () => async (dispatch, getState) => {
         userSignin: { userInfo },
     } = getState();
     try {
-        const { data } = await axios.get(endpoint + '/api/file', {
+        const { data } = await axios.get("file", {
             headers: { Authorization: `Bearer ${userInfo?.token}` },
         });
         dispatch({ type: FILE_LIST_SUCCESS, payload: data })
@@ -36,7 +36,7 @@ export const fileUpload = (data) => async (dispatch, getState) => {
     dispatch({ type: FILE_UPLOAD_REQUEST });
     const { userSignin: { userInfo } } = getState();
     try {
-        const res = await axios.post(endpoint + '/api/file/upload', data, {
+        const res = await axios.post("file/upload", data, {
             headers: {
                 Authorization: `Bearer ${userInfo?.token}`,
                 'Content-Type': 'multipart/form-data'
@@ -54,7 +54,7 @@ export const deleteFile = (id) => async (dispatch, getState) => {
         userSignin: { userInfo },
     } = getState();
     try {
-        const { res } = await axios.delete(endpoint + '/api/file/' + id, {
+        const { res } = await axios.delete(`file/${id}`, {
             headers: { Authorization: `Bearer ${userInfo?.token}` },
         });
         dispatch({ type: FILE_DELETE_SUCCESS, payload: res });
@@ -69,7 +69,7 @@ export const getFile = (id) => async(dispatch, getState) => {
         userSignin: { userInfo },
     } = getState();
     try{
-        await axios.get(endpoint + '/api/file/' + id, {
+        await axios.get(`file/${id}`, {
             headers: { Authorization: `Bearer ${userInfo?.token}`},
         });
         dispatch({type: FILE_GET_SUCCESS})
