@@ -12,8 +12,7 @@ import {
     , FILE_UPLOAD_REQUEST
     , FILE_UPLOAD_SUCCESS
 } from '../constants/fileConstants';
-import axios from 'axios';
-const axiosInstance = axios.create({baseURL: process.env.API_URL});
+import { axiosInstance } from '../Utility';
 
 export const listFile = () => async (dispatch, getState) => {
     dispatch({

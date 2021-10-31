@@ -9,8 +9,7 @@ import {
     , LICENSE_UPDATE_REQUEST
     , LICENSE_UPDATE_SUCCESS
 } from '../constants/licenseConstants';
-import axios from 'axios';
-const axiosInstance = axios.create({ baseURL: process.env.API_URL });
+import { axiosInstance } from '../Utility';
 
 export const listLicense = () => async (dispatch, getState) => {
     dispatch({

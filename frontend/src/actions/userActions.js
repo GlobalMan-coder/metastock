@@ -22,11 +22,11 @@ import {
     , USER_DELETE_SUCCESS
     , USER_DELETE_FAIL
 } from '../constants/userConstants.js';
-import axios from 'axios';
-const axiosInstance = axios.create({baseURL: process.env.API_URL});
+import { axiosInstance } from '../Utility';
 
 export const register = (name, email, password) => async (dispatch) => {
     dispatch({ type: USER_REGISTER_REQUEST, payload: { email, password } });
+    console.log("axios", process.env.REACT_APP_API_RUL);
     try {
         const { data } = await axiosInstance.post("user/register", { name, email, password });
         dispatch({ type: USER_REGISTER_SUCCESS, payload: data });

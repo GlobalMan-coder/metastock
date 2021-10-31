@@ -18,6 +18,12 @@ mongoose.connect(process.env.MONGDB_URL || 'mongodb://localhost/metastock', {
     autoCreate: true,
     autoIndex: true
 })
+.then(() => {
+    console.log("Success mongodb connected");
+})
+.catch((err) => {
+    console.log(err.message);
+})
 
 app.use('/api/user', userRouter);
 app.use('/api/license', licenseRouter);
