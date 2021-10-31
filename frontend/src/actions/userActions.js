@@ -23,12 +23,12 @@ import {
     , USER_DELETE_FAIL
 } from '../constants/userConstants.js';
 import axios from 'axios';
-axios = axios.create({baseURL: process.env.API_URL});
+const axiosInstance = axios.create({baseURL: process.env.API_URL});
 
 export const register = (name, email, password) => async (dispatch) => {
     dispatch({ type: USER_REGISTER_REQUEST, payload: { email, password } });
     try {
-        const { data } = await axios.post("user/register", { name, email, password });
+        const { data } = await axiosInstance.post("user/register", { name, email, password });
         dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
         dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
         localStorage.setItem('userInfo', JSON.stringify(data));
@@ -46,7 +46,7 @@ export const signin = (email, password) => async (dispatch) => {
     dispatch({ type: USER_SIGIN_REQUEST, payload: { email, password } });
 
     try {
-        const { data } = await axios.post("user/signin", { email, password });
+        const { data } = await axiosInstance.post("user/signin", { email, password });
         dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
         localStorage.setItem('userInfo', JSON.stringify(data));
     } catch (error) {
@@ -71,7 +71,7 @@ export const detailsUser = (userId) => async (dispatch, getState) => {
         userSignin: { userInfo },
     } = getState();
     try {
-        const { data } = await axios.get(`user/${userId}`, {
+        const { data } = await axiosInstance.get(`user/${userId}`, {
             headers: { Authorization: `Bearer ${userInfo?.token}` },
         });
         dispatch({ type: USER_DETAIL_SUCCESS, payload: data });
@@ -88,7 +88,7 @@ export const updateUserProfile = (user) => (dispatch, getState) => {
     dispatch({ type: USER_UPDATE_PROFILE_REQUEST, payload: user });
     const { userSignin: { userInfo } } = getState();
     try {
-        const { data } = axios.put(`user/profile`, user, {
+        const { data } = axiosInstance.put(`user/profile`, user, {
             headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
@@ -105,7 +105,7 @@ export const listUser = () => async (dispatch, getState) => {
     dispatch({ type: USER_LIST_REQUEST })
     const { userSignin: { userInfo } } = getState();
     try {
-        const { data } = await axios.get("user", {
+        const { data } = await axiosInstance.get("user", {
             headers: { Authorization: `Bearer ${userInfo?.token}` },
         });
         dispatch({ type: USER_LIST_SUCCESS, payload: data });
@@ -118,7 +118,7 @@ export const updateUser = (data) => async (dispatch, getState) => {
     dispatch({ type: USER_UPDATE_REQUEST });
     const { userSignin: { userInfo } } = getState();
     try {
-        const { res } = await axios.put(`user/${data._id}`, data, {
+        const { res } = await axiosInstance.put(`user/${data._id}`, data, {
             headers: { Authorization: `Bearer ${userInfo?.token}` }
         })
         dispatch({ type: USER_UPDATE_SUCCESS, payload: res });
@@ -131,7 +131,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
     dispatch({ type: USER_DELETE_REQUEST });
     const { userSignin: { userInfo } } = getState();
     try {
-        const { res } = await axios.delete(`user/${id}`, {
+        const { res } = await axiosInstance.delete(`user/${id}`, {
             headers: { Authorization: `Bearer ${userInfo?.token}` },
         })
         dispatch({ type: USER_DELETE_SUCCESS, payload: res });
