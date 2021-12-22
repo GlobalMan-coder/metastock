@@ -21,14 +21,11 @@ mongoose.connect(process.env.MONGDB_URL || 'mongodb://localhost/metastock', {
 .then(() => {
     console.log("Success mongodb connected");
 })
-.catch((err) => {
-    console.log(err.message);
-})
 
 app.use('/api/user', userRouter);
 app.use('/api/license', licenseRouter);
 app.use('/api/file', fileRouter);
-app.use('/client', clientRouter);
+app.use('/api/client', clientRouter);
 
 app.get('/', (req, res) => {
     res.send('Server is ready');

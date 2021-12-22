@@ -27,6 +27,7 @@ export default function LicenseScreen() {
     const [monthStep, setMonthStep] = useState(0);
     const [dateStep, setDateStep] = useState(0);
     const [deviceId, setDeviceId] = useState('');
+    const [clientName, setClientName] = useState('');
     const [isNew, setIsNew] = useState(false);
 
     const { updated } = useSelector((state) => state.licenseUpdate);
@@ -58,7 +59,7 @@ export default function LicenseScreen() {
             date.setDate(date.getDate() + parseInt(dateStep));
         }
         setTargetDate(date);
-    }, [dateStep, monthStep, yearStep, rowData, isNew])
+    }, [dateStep, monthStep, yearStep, isNew])
 
     const columns = [
         {
@@ -69,6 +70,7 @@ export default function LicenseScreen() {
             }
         },
         { dataField: "deviceId", text: "DeviceId", sort: true },
+        { dataField: "clientName", text: "ClientName", sort: true },
         { dataField: "date", text: "License Date", formatter: DateToStr, sort: true },
         { dataField: "createdAt", text: "Created Date", formatter: DateToStr, sort: true },
         { dataField: "updatedAt", text: "Updated Date", formatter: DateToStr, sort: true },
@@ -102,6 +104,7 @@ export default function LicenseScreen() {
     function updateDlg(data = null) {
         if (data) {
             setTargetDate(data.date);
+            setClientName(data.clientName);
             setRowData(data);
             setIsNew(false);
         }
@@ -119,6 +122,7 @@ export default function LicenseScreen() {
     function updateDevice() {
         dispatch(updateLicense({
             _id: rowData._id,
+            clientName: clientName,
             deviceId: deviceId,
             date: targetDate
         }))
@@ -145,6 +149,10 @@ export default function LicenseScreen() {
                             <Modal.Title>
                                 {isNew ? <>New Device</> : <>Update Device "{rowData.deviceId}" </>}
                             </Modal.Title>
+                            <div classname="fromgroup mt-2">
+                                <label>ClientName</label>
+                                <input type="text" className="form-control" value={clientName} onChange={(e) => setClientName(e.target.value)}></input>
+                            </div>
                             {isNew ?
                                 <div className="formgroup mt-2">
                                     <label>DeviceId:</label>

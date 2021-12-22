@@ -22,9 +22,11 @@ licenseRouter.get('/:id', isAuth, expressAsyncHandler(async (req, res) => {
 licenseRouter.post('/', isAuth, expressAsyncHandler(async (req, res) => {
     const license = new License({
         deviceId: req.body.deviceId,
+        clientName: req.body.clientName || "",
         date: req.body.date,
         updatedBy: req.user.name
     });
+
     const createdLicense = await license.save();
     res.send(createdLicense);
 }))
@@ -32,6 +34,7 @@ licenseRouter.post('/', isAuth, expressAsyncHandler(async (req, res) => {
 licenseRouter.put('/:id', isAuth, expressAsyncHandler(async (req, res) => {
     const license = await License.findById(req.params.id);
     if (license) {
+        license.clientName = req.body.clientName || license.clientName;
         license.date = req.body.date;
         license.updatedBy = req.user.name;
         await license.save();
